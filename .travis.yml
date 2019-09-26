@@ -1,0 +1,23 @@
+services: docker
+language: bash
+
+# Only build tags
+if: tag IS present
+
+install:
+  - git clone https://github.com/docker-library/official-images.git ~/official-images
+
+before_script:
+  - env | sort
+  - IMAGE="${TRAVIS_REPO_SLUG}:${TRAVIS_TAG}"
+
+script:
+  - travis_retry docker build -t "$IMAGE" .
+  - ~/official-images/test/run.sh "$IMAGE" || travis_terminate 1;
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push "$IMAGE"
+  - docker tag "$IMAGE" "${TRAVIS_REPO_SLUG}:latest"
+  - docker push "${TRAVIS_REPO_SLUG}:latest"
+
+after_script:
+  - docker images
