@@ -8,10 +8,5 @@ if [ "${1:0:1}" = '-' ]; then
     set -- nvchecker "$@"
 fi
 
-# check if running nvchecker
-if [ "$1" = 'nvchecker' ]; then
-  exec nvchecker "$@"
-fi
-
 # else default to run whatever the user wanted like "bash"
 exec "$@"

@@ -19,3 +19,5 @@ RUN apk --upgrade --no-cache add \
   && chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["nvchecker"]
