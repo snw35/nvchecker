@@ -6,7 +6,7 @@ Dockerfile for the excellent [nvchecker](https://github.com/lilydjwg/nvchecker) 
 
 This container is compliant with the official image specification and runs nvchecker as it's default entrypoint. To have nvchecker run against a project with an `ini` file in the current working directory, you can:
 
-`docker run -it --rm --name nvchecker --mount type=bind,source=${PWD},target=/data/ snw35:/nvchecker:latest nvchecker /data/nvchecker.ini`
+`docker run -it --rm --name nvchecker --mount type=bind,source=${PWD},target=/data/ snw35/nvchecker:latest nvchecker /data/nvchecker.ini`
 
 Where `nvchecker.ini` is the name of the nvchecker configuration file.
 
