@@ -36,16 +36,13 @@ script:
 after_script:
   - docker images
 
-before_deploy:
-  - git config --global user.email "snw35@use.startmail.com"
-  - git config --global user.name "snw35"
-  - git tag $TRAVIS_TAG
-
 deploy:
   provider: releases
   edge: true
   token: EXpbmGybUz2dRMxOzQ6XyYVKKDqz8bzBRtgQMFQRNO/Wt52xkab20B0JZDmYS5KVaRK9cglxuqHk4NxcVIJy6ae+RATHUc60NO4ZT1v5gFUbVg8B69wNaV14/DDOfGzaJ+WBUhRXjtlgx/kilt891aSXkP4YJHezktfyFVYRGPDydOwlMCA137+46xK136d/NSTVHu29KczDdZGEKzQrYrRn4AOrunEz0s1IaABk0ZEtilstiDR7QdM+4hBv9IYB9rEDlVUlmSTeZqt2tPLz2zWfpsE89p2Zh1dJAbuUC5s1Llttk5cEE2rBGwTPXeV5dF/FomuanjVjPeaKnlBsKU3vh+rlGE1F8Lqq/EDbPHJFGUuYOwA29gLCZA79QHZIIrZysUNA9N+IuTKwdwhilMA23DakwVpXAMZ0k6VQsorDJdF2t/NWmrY4Jt8IludXFIZPneC8NrfxcrrktV+kynTW3mCmxPUGaLv/jWAPoWZkdE6JgYaZJGc3iiQ7pfgX5n4otPgFfftcYz0rSpxdG60OpnosBQQMbPRefXMbhhO2luykJY7zM5DPayF9Rmvf6/xFj7r+sOZ0mzEDP7XYMFu+gxqEAWQI6Sq3xbPEBqd1/QDczrkXmdw/7h7o+VKf2zaMr9VZk8PV8eM1vj2HzjjIj321gBU1PNoZYRDH9+U=
   username: snw35
+  overwrite: true
+  target_commitish: ${TRAVIS_TAG}
   release_notes: >
     Software Updated
     Commit: $TRAVIS_COMMIT
