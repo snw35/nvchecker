@@ -3,6 +3,7 @@
 setup_git() {
   git config --global user.email "travis@travis-ci.org"
   git config --global user.name "Travis CI"
+  git remote add origin https://${GH_TOKEN}@github.com/snw35/nvchecker.git > /dev/null 2>&1
 }
 
 commit_files() {
@@ -16,13 +17,19 @@ commit_files() {
   pycurl version: $PYCURL_VERSION"
 }
 
-upload_files() {
-  git remote add origin https://${GH_TOKEN}@github.com/snw35/nvchecker.git > /dev/null 2>&1
+create_tag() {
+  if [ "`git ls-remote --exit-code --tags origin $NVCHECKER_VERSION`" ]; then
+    git push --delete origin $NVCHECKER_VERSION
+  fi
   git tag $NVCHECKER_VERSION $TRAVIS_COMMIT > /dev/null 2>&1
+}
+
+upload_files() {
   git push --quiet --set-upstream origin
   git push --tags --quiet --set-upstream origin
 }
 
 setup_git
 commit_files
+create_tag
 upload_files
