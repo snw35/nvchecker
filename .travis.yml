@@ -1,6 +1,5 @@
 services: docker
 language: bash
-if: tag IS present
 install:
 - git clone https://github.com/docker-library/official-images.git ~/official-images
 before_script:
@@ -8,6 +7,12 @@ before_script:
 - IMAGE="${TRAVIS_REPO_SLUG}:${TRAVIS_TAG}"
 - docker run -it --rm --name nvchecker --mount type=bind,source=${PWD},target=/data/ -w /data snw35/nvchecker:latest nvchecker nvchecker.ini
 - docker run -it --rm --name dfupdate --mount type=bind,source=${PWD},target=/data/ -w /data snw35/dfupdate:latest
+- if [ `git status --porcelain` ]; then
+  echo "Local changes detected, continuing...";
+  else
+  echo "No local changes detected, nothing to build, exiting.";
+  travis_terminate 1;
+  fi
 script:
 - travis_retry docker build -t "$IMAGE" .
 - ~/official-images/test/run.sh "$IMAGE" || travis_terminate 1;
