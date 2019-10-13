@@ -1,8 +1,8 @@
 #!/bin/sh
 
 setup_git() {
-  git config --global user.email "travis@travis-ci.org"
-  git config --global user.name "Travis CI"
+  git config --global user.email "snw35@use.startmail.com"
+  git config --global user.name "snw35"
   git remote add origin https://${GH_TOKEN}@github.com/snw35/nvchecker.git > /dev/null 2>&1
 }
 
