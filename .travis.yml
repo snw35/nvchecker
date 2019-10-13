@@ -9,7 +9,7 @@ before_script:
 - export IMAGE="${TRAVIS_REPO_SLUG}:${TRAVIS_TAG}"
 - docker run -it --rm --name nvchecker --mount type=bind,source=${PWD},target=/data/ -w /data snw35/nvchecker:latest nvchecker nvchecker.ini
 - docker run -it --rm --name dfupdate --mount type=bind,source=${PWD},target=/data/ -w /data snw35/dfupdate:latest
-- if [ `git status --porcelain` ]; then
+- if [ ! `git status --porcelain` ]; then
   echo "Local changes detected, continuing...";
   export NVCHECKER_VERSION=`grep "ENV NVCHECKER_VERSION" Dockerfile | cut -d " " -f 3`;
   export TORNADO_VERSION=`grep "ENV TORNADO_VERSION" Dockerfile | cut -d " " -f 3`;
