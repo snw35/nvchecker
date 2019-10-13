@@ -1,23 +1,26 @@
 services: docker
 language: bash
-
-# Only build tags
 if: tag IS present
-
 install:
-  - git clone https://github.com/docker-library/official-images.git ~/official-images
-
+- git clone https://github.com/docker-library/official-images.git ~/official-images
 before_script:
-  - env | sort
-  - IMAGE="${TRAVIS_REPO_SLUG}:${TRAVIS_TAG}"
-
+- env | sort
+- IMAGE="${TRAVIS_REPO_SLUG}:${TRAVIS_TAG}"
+- docker run -it --rm --name nvchecker --mount type=bind,source=${PWD},target=/data/ -w /data snw35/nvchecker:latest nvchecker nvchecker.ini
+- docker run -it --rm --name dfupdate --mount type=bind,source=${PWD},target=/data/ -w /data snw35/dfupdate:latest
 script:
-  - travis_retry docker build -t "$IMAGE" .
-  - ~/official-images/test/run.sh "$IMAGE" || travis_terminate 1;
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push "$IMAGE"
-  - docker tag "$IMAGE" "${TRAVIS_REPO_SLUG}:latest"
-  - docker push "${TRAVIS_REPO_SLUG}:latest"
-
+- travis_retry docker build -t "$IMAGE" .
+- ~/official-images/test/run.sh "$IMAGE" || travis_terminate 1;
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker push "$IMAGE"
+- docker tag "$IMAGE" "${TRAVIS_REPO_SLUG}:latest"
+- docker push "${TRAVIS_REPO_SLUG}:latest"
 after_script:
-  - docker images
+- docker images
+after_success:
+  - .travis/push.sh
+env:
+  global:
+  - secure: EXpbmGybUz2dRMxOzQ6XyYVKKDqz8bzBRtgQMFQRNO/Wt52xkab20B0JZDmYS5KVaRK9cglxuqHk4NxcVIJy6ae+RATHUc60NO4ZT1v5gFUbVg8B69wNaV14/DDOfGzaJ+WBUhRXjtlgx/kilt891aSXkP4YJHezktfyFVYRGPDydOwlMCA137+46xK136d/NSTVHu29KczDdZGEKzQrYrRn4AOrunEz0s1IaABk0ZEtilstiDR7QdM+4hBv9IYB9rEDlVUlmSTeZqt2tPLz2zWfpsE89p2Zh1dJAbuUC5s1Llttk5cEE2rBGwTPXeV5dF/FomuanjVjPeaKnlBsKU3vh+rlGE1F8Lqq/EDbPHJFGUuYOwA29gLCZA79QHZIIrZysUNA9N+IuTKwdwhilMA23DakwVpXAMZ0k6VQsorDJdF2t/NWmrY4Jt8IludXFIZPneC8NrfxcrrktV+kynTW3mCmxPUGaLv/jWAPoWZkdE6JgYaZJGc3iiQ7pfgX5n4otPgFfftcYz0rSpxdG60OpnosBQQMbPRefXMbhhO2luykJY7zM5DPayF9Rmvf6/xFj7r+sOZ0mzEDP7XYMFu+gxqEAWQI6Sq3xbPEBqd1/QDczrkXmdw/7h7o+VKf2zaMr9VZk8PV8eM1vj2HzjjIj321gBU1PNoZYRDH9+U=
+  - secure: EXlwG+mB0oSVgVKd+oKTJy3QbSc/UrWqnX+EegCmhRXRVofU6JKgWe4PG/GYIdv5zseYd1kYeFpG1n40wb3g5NXcSMWH3WI1bo2gYZscpE+WpRGMMWracdHa+bQ1xLK2n6n1tY5FMFbZ7mpjS82XnRHqJSbmJZLea+Vtle8YcML6/DU2H7vjjSKl1G58o63VyhVQvIseqv5lMyU98JuPc4J+cbSYw5pXW4JeCIQbQJGP6Xz55ANcDYZ/fJlyjgIbhsBwYWmD5pylrIFfjeDk8+EfhEPRb1vIj9lSPSo/474NYBvUhzSD4bsgtoCIqaCxeYrUHJAyoR8mViBRcr+OvmQTBAIyTGzz4y/lxPJSKnvwHGTcitehHi4Zd+WTJq37Ia5/GMn83OquG+4B4b6chFnMSbmQDcpXXS2ug7xeokWmWHSyx312QthIMylr57Vg4RmKjBkVS0gRIp06SXEUq6tW6ugQpGgwX1+qxWjI5V0nkmlnwTJTX4gj+OC5e9b9sFz5529x4PqgcWoUYgdHeQjOG3iaRaGnUfXlFNiG8DxYRojXKncMUTFuCuNYqb/qRIYVC0N1njlwdWPUa7cPRfml9l+JZGFYodG1XArDvxOcJhk0tSd+5luNBm241Os7hO2u1gz/NBrpbA8ZVfCce5mbB6HMQUEzCjAEdzvhyd0=
+  - secure: BeDSYoRAHTUu9BCImxO6ttwoA1gal9tWqgI2ONg9TZfSLUZKepu/T8hPdfUE3yjlwGlO2ZqjwFPRxms1W8jNfovZgKVimjeGCxNVAm4hM3j0P3VVFw28gn7K2IQJ7L1Iv3X151SSVXDdTqUwM5P4xybHn2H4VD5MHk71CoYnmb7Fn5p/iwfjsJamZ5L4ItIYmp9wr0yy8tCX4tVV2/bHP2HwUdWtmOqsZOx4F8TxnBSJY63mDCTD8adOrMULBUzKpvo66l4tyKjVIHDQTmtks1GASlV3UzDMnBu7TK4VlDUkga+QhrNYvBeSPIjKQSO+rvfnSu4hw8c50VpJmh/R11tT1M7k3Uy7f11EfB7+CXtXHY8HyCdcctmOD1DCajnm0NQjhglN8O2IiMQbcxZHZTyrbb1I8hkgWKyr5lYpnS84um5/5DdbN7jnyfWPY+qqzWimKAcfdCIRILlhipmWWgcMQjPMd0STGjEhtzp5FtMUODpdQPAMjsZUhnm1QWGqpB3zo0R9gz63REqTCpfj6eZhBopqLsa+Ah2q7QHWHMhApycyCZkl+c3MJBYW+lQs8RIGUbqiM5lQGnt9XNztdB49OTuemLHVDHW0My4oQgEUIx04kIB65FdpP+AjSiNuBXXWlyy9h2zEYp5bPCw/tTbipUJ4m5EE4G3hilJ6btc=
