@@ -11,7 +11,7 @@ before_script:
   echo "Local changes detected, continuing...";
   else
   echo "No local changes detected, nothing to build, exiting.";
-  travis_terminate 1;
+  travis_terminate 0;
   fi
 script:
 - travis_retry docker build -t "$IMAGE" .
