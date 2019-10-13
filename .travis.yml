@@ -1,38 +1,61 @@
 services: docker
 language: bash
 install:
-- git clone https://github.com/docker-library/official-images.git ~/official-images
+  - git clone https://github.com/docker-library/official-images.git ~/official-images
+
 before_script:
-- env | sort
-- export LAST_TAG=`git describe --tags`
-- export TRAVIS_TAG=${TRAVIS_TAG:=$LAST_TAG}
-- export IMAGE="${TRAVIS_REPO_SLUG}:${TRAVIS_TAG}"
-- docker run -it --rm --name nvchecker --mount type=bind,source=${PWD},target=/data/ -w /data snw35/nvchecker:latest nvchecker nvchecker.ini
-- docker run -it --rm --name dfupdate --mount type=bind,source=${PWD},target=/data/ -w /data snw35/dfupdate:latest
-- if [ ! `git status --porcelain` ]; then
-  echo "Local changes detected, continuing...";
-  export NVCHECKER_VERSION=`grep "ENV NVCHECKER_VERSION" Dockerfile | cut -d " " -f 3`;
-  export TORNADO_VERSION=`grep "ENV TORNADO_VERSION" Dockerfile | cut -d " " -f 3`;
-  export PYCURL_VERSION=`grep "ENV PYCURL_VERSION" Dockerfile | cut -d " " -f 3`;
-  export IMAGE="${TRAVIS_REPO_SLUG}:${NVCHECKER_VERSION}";
-  cp new_ver.txt old_ver.txt;
-  else
-  echo "Placeholder for future OS package update check.";
-  echo "No local changes detected, nothing to build, exiting.";
-  travis_terminate 0;
-  fi
+  - env | sort
+  - export LAST_TAG=`git describe --tags`
+  - export TRAVIS_TAG=${TRAVIS_TAG:=$LAST_TAG}
+  - export IMAGE="${TRAVIS_REPO_SLUG}:${TRAVIS_TAG}"
+  - docker run -it --rm --name nvchecker --mount type=bind,source=${PWD},target=/data/ -w /data snw35/nvchecker:latest nvchecker nvchecker.ini
+  - docker run -it --rm --name dfupdate --mount type=bind,source=${PWD},target=/data/ -w /data snw35/dfupdate:latest
+  - if [ ! `git status --porcelain` ]; then
+      echo "Local changes detected, continuing...";
+      export NVCHECKER_VERSION=`grep "ENV NVCHECKER_VERSION" Dockerfile | cut -d " " -f 3`;
+      export TORNADO_VERSION=`grep "ENV TORNADO_VERSION" Dockerfile | cut -d " " -f 3`;
+      export PYCURL_VERSION=`grep "ENV PYCURL_VERSION" Dockerfile | cut -d " " -f 3`;
+      export IMAGE="${TRAVIS_REPO_SLUG}:${NVCHECKER_VERSION}";
+      export TRAVIS_TAG=${NVCHECKER_VERSION};
+      cp new_ver.txt old_ver.txt;
+    else
+      echo "Placeholder for future OS package update check.";
+      echo "No local changes detected, nothing to build, exiting.";
+      travis_terminate 0;
+    fi
+
 script:
-- env | sort
-- travis_retry docker build -t "$IMAGE" .
-- ~/official-images/test/run.sh "$IMAGE" || travis_terminate 1;
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-- docker push "$IMAGE"
-- docker tag "$IMAGE" "${TRAVIS_REPO_SLUG}:latest"
-- docker push "${TRAVIS_REPO_SLUG}:latest"
+  - env | sort
+  - travis_retry docker build -t "$IMAGE" .
+  - ~/official-images/test/run.sh "$IMAGE" || travis_terminate 1;
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push "$IMAGE"
+  - docker tag "$IMAGE" "${TRAVIS_REPO_SLUG}:latest"
+  - docker push "${TRAVIS_REPO_SLUG}:latest"
+
 after_script:
-- chmod +x .travis/push.sh
-- .travis/push.sh
-- docker images
+  - docker images
+
+before_deploy:
+  - git config --global user.email "snw35@use.startmail.com"
+  - git config --global user.name "snw35"
+  - git tag $TRAVIS_TAG
+
+deploy:
+  provider: releases
+  edge: true
+  token: EXpbmGybUz2dRMxOzQ6XyYVKKDqz8bzBRtgQMFQRNO/Wt52xkab20B0JZDmYS5KVaRK9cglxuqHk4NxcVIJy6ae+RATHUc60NO4ZT1v5gFUbVg8B69wNaV14/DDOfGzaJ+WBUhRXjtlgx/kilt891aSXkP4YJHezktfyFVYRGPDydOwlMCA137+46xK136d/NSTVHu29KczDdZGEKzQrYrRn4AOrunEz0s1IaABk0ZEtilstiDR7QdM+4hBv9IYB9rEDlVUlmSTeZqt2tPLz2zWfpsE89p2Zh1dJAbuUC5s1Llttk5cEE2rBGwTPXeV5dF/FomuanjVjPeaKnlBsKU3vh+rlGE1F8Lqq/EDbPHJFGUuYOwA29gLCZA79QHZIIrZysUNA9N+IuTKwdwhilMA23DakwVpXAMZ0k6VQsorDJdF2t/NWmrY4Jt8IludXFIZPneC8NrfxcrrktV+kynTW3mCmxPUGaLv/jWAPoWZkdE6JgYaZJGc3iiQ7pfgX5n4otPgFfftcYz0rSpxdG60OpnosBQQMbPRefXMbhhO2luykJY7zM5DPayF9Rmvf6/xFj7r+sOZ0mzEDP7XYMFu+gxqEAWQI6Sq3xbPEBqd1/QDczrkXmdw/7h7o+VKf2zaMr9VZk8PV8eM1vj2HzjjIj321gBU1PNoZYRDH9+U=
+  username: snw35
+  release_notes: >
+    Software Updated
+    Commit: $TRAVIS_COMMIT
+    Travis build: $TRAVIS_BUILD_NUMBER
+    nvchecker version: $NVCHECKER_VERSION
+    tornado version: $TORNADO_VERSION
+    pycurl version: $PYCURL_VERSION
+  tag_name: ${NVCHECKER_VERSION}
+  name: ${NVCHECKER_VERSION}
+
 env:
   global:
   - secure: EXpbmGybUz2dRMxOzQ6XyYVKKDqz8bzBRtgQMFQRNO/Wt52xkab20B0JZDmYS5KVaRK9cglxuqHk4NxcVIJy6ae+RATHUc60NO4ZT1v5gFUbVg8B69wNaV14/DDOfGzaJ+WBUhRXjtlgx/kilt891aSXkP4YJHezktfyFVYRGPDydOwlMCA137+46xK136d/NSTVHu29KczDdZGEKzQrYrRn4AOrunEz0s1IaABk0ZEtilstiDR7QdM+4hBv9IYB9rEDlVUlmSTeZqt2tPLz2zWfpsE89p2Zh1dJAbuUC5s1Llttk5cEE2rBGwTPXeV5dF/FomuanjVjPeaKnlBsKU3vh+rlGE1F8Lqq/EDbPHJFGUuYOwA29gLCZA79QHZIIrZysUNA9N+IuTKwdwhilMA23DakwVpXAMZ0k6VQsorDJdF2t/NWmrY4Jt8IludXFIZPneC8NrfxcrrktV+kynTW3mCmxPUGaLv/jWAPoWZkdE6JgYaZJGc3iiQ7pfgX5n4otPgFfftcYz0rSpxdG60OpnosBQQMbPRefXMbhhO2luykJY7zM5DPayF9Rmvf6/xFj7r+sOZ0mzEDP7XYMFu+gxqEAWQI6Sq3xbPEBqd1/QDczrkXmdw/7h7o+VKf2zaMr9VZk8PV8eM1vj2HzjjIj321gBU1PNoZYRDH9+U=
