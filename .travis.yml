@@ -7,7 +7,7 @@ before_script:
   - env | sort
   - docker run -it --rm --name nvchecker --mount type=bind,source=${PWD},target=/data/ -w /data snw35/nvchecker:latest nvchecker nvchecker.ini
   - docker run -it --rm --name dfupdate --mount type=bind,source=${PWD},target=/data/ -w /data snw35/dfupdate:latest
-  - if [ ! `git status --porcelain` ]; then
+  - if [ `git status --porcelain` ]; then
       echo "Local changes detected, continuing...";
       cp new_ver.txt old_ver.txt;
     else
