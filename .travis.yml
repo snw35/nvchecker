@@ -36,14 +36,14 @@ after_script:
 before_deploy:
   - git config --local user.name "${DOCKER_USERNAME}"
   - git config --local user.email "snw35@use.startmail.com"
-  - git remote add origin https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git > /dev/null 2>&1
+  - git remote add upstream https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git > /dev/null 2>&1
   - git checkout master
   - git add -A
   - git commit --message "Software Updated"
   - TRAVIS_TAG=${NVCHECKER_VERSION}-${TORNADO_VERSION}-${PYCURL_VERSION}-${BASE_VERSION}
   - git tag $TRAVIS_TAG
-  - git push --quiet --set-upstream origin
-  - git push --tags --quiet --set-upstream origin
+  - git push --quiet --set-upstream upstream
+  - git push --tags --quiet --set-upstream upstream
 
 deploy:
   provider: releases
