@@ -20,7 +20,7 @@ script:
   - NVCHECKER_VERSION=`grep "ENV NVCHECKER_VERSION" Dockerfile | cut -d " " -f 3`
   - TORNADO_VERSION=`grep "ENV TORNADO_VERSION" Dockerfile | cut -d " " -f 3`
   - PYCURL_VERSION=`grep "ENV PYCURL_VERSION" Dockerfile | cut -d " " -f 3`
-  - BASE_VERSION=`grep "FROM" Dockerfile | cut -d " " -f 2`
+  - BASE_VERSION=`grep "FROM" Dockerfile | cut -d " " -f 2 | cut -d ":" -f 2`
   - IMAGE="${TRAVIS_REPO_SLUG}:${NVCHECKER_VERSION}"
   - env | sort
   - travis_retry docker build -t "$IMAGE" .
@@ -41,8 +41,6 @@ deploy:
   provider: releases
   api_key: $GH_TOKEN
   skip_cleanup: true
-  on:
-    tags: true
 
 env:
   global:
