@@ -5,18 +5,10 @@ install:
 
 before_script:
   - env | sort
-  - export LAST_TAG=`git describe --tags`
-  - export TRAVIS_TAG=${TRAVIS_TAG:=$LAST_TAG}
-  - export IMAGE="${TRAVIS_REPO_SLUG}:${TRAVIS_TAG}"
   - docker run -it --rm --name nvchecker --mount type=bind,source=${PWD},target=/data/ -w /data snw35/nvchecker:latest nvchecker nvchecker.ini
   - docker run -it --rm --name dfupdate --mount type=bind,source=${PWD},target=/data/ -w /data snw35/dfupdate:latest
   - if [ ! `git status --porcelain` ]; then
       echo "Local changes detected, continuing...";
-      export NVCHECKER_VERSION=`grep "ENV NVCHECKER_VERSION" Dockerfile | cut -d " " -f 3`;
-      export TORNADO_VERSION=`grep "ENV TORNADO_VERSION" Dockerfile | cut -d " " -f 3`;
-      export PYCURL_VERSION=`grep "ENV PYCURL_VERSION" Dockerfile | cut -d " " -f 3`;
-      export IMAGE="${TRAVIS_REPO_SLUG}:${NVCHECKER_VERSION}";
-      export TRAVIS_TAG=${NVCHECKER_VERSION};
       cp new_ver.txt old_ver.txt;
     else
       echo "Placeholder for future OS package update check.";
@@ -25,6 +17,11 @@ before_script:
     fi
 
 script:
+  - NVCHECKER_VERSION=`grep "ENV NVCHECKER_VERSION" Dockerfile | cut -d " " -f 3`
+  - TORNADO_VERSION=`grep "ENV TORNADO_VERSION" Dockerfile | cut -d " " -f 3`
+  - PYCURL_VERSION=`grep "ENV PYCURL_VERSION" Dockerfile | cut -d " " -f 3`
+  - BASE_VERSION=`grep "FROM" Dockerfile | cut -d " " -f 2`
+  - IMAGE="${TRAVIS_REPO_SLUG}:${NVCHECKER_VERSION}"
   - env | sort
   - travis_retry docker build -t "$IMAGE" .
   - ~/official-images/test/run.sh "$IMAGE" || travis_terminate 1;
@@ -35,23 +32,17 @@ script:
 
 after_script:
   - docker images
+  - git config --local user.name "snw35"
+  - git config --local user.email "snw35@use.startmail.com"
+  - export TRAVIS_TAG=${NVCHECKER_VERSION}-${TORNADO_VERSION}-${PYCURL_VERSION}-${BASE_VERSION}
+  - git tag $TRAVIS_TAG
 
 deploy:
   provider: releases
-  edge: true
-  token: eZ5TsWF/oFibxwHiD6bIzUstvPteeCXmcfH9xsnP3ZIjhzkANek+Up5nNBb+UskPsJJgkNbQeePn+JlhHqzCLV7Z4okgQX7yxDhr0fLYmzpb8Qrpwn0iymmjDdAt1GpnZPupoNRpqZWdDnVwj26UeuA7Wrw9DYCqYpd4gwOrjNzvCExrlQLIS3b4okzX2NmZDrQo+lOK8JZTLcMJTR42aUo/tO7YUDbirHvm9G9/BPeAiF24UGXlQQ2iuCX5udDO5X/pw0O0Bt07PKoxwI7uaPJot1pcIHd/olR2wCvunYoDk6iTFkFjV+Gl+QrC2ovHJ2smFaoFbFzOrdlr4t4uxSGodsIPCyxciCa09yPv1bPRwmMdTcfZKynrXSaEr2SjyeCbtcVuq2YiN1NSE8dDymFiGq4EoIrDsO4EbjCGZIaMRzCikqV5EODBHMXX8DEBLFlJ67cwlQHJX9f2Xd6+NTpkZ1fvjOI/6R6yz9zbIoFtQV6O/eJG64bwnbsIHk6SC+QlANKYHuko77t02f8tBYqtLkimaOWFAkru2jKh8Fc7a6PAKPgyGzmCgKyiuV3o02bijb629w7usosNhfzqBAnuuoOWjf7ic09wXl2QpE2UQq2H3ndah7IojkzwiMruxrF9eItVC/BaLJIRIFbQ55g0fnlhclQDF/lYsVebFAs=
-  username: snw35
-  overwrite: true
-  target_commitish: ${TRAVIS_TAG}
-  release_notes: >
-    Software Updated
-    Commit: $TRAVIS_COMMIT
-    Travis build: $TRAVIS_BUILD_NUMBER
-    nvchecker version: $NVCHECKER_VERSION
-    tornado version: $TORNADO_VERSION
-    pycurl version: $PYCURL_VERSION
-  tag_name: ${NVCHECKER_VERSION}
-  name: ${NVCHECKER_VERSION}
+  api_key: $GH_TOKEN
+  skip_cleanup: true
+  on:
+    tags: true
 
 env:
   global:
