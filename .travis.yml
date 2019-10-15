@@ -32,6 +32,8 @@ script:
 
 after_script:
   - docker images
+
+before_deploy:
   - git config --local user.name "snw35"
   - git config --local user.email "snw35@use.startmail.com"
   - export TRAVIS_TAG=${NVCHECKER_VERSION}-${TORNADO_VERSION}-${PYCURL_VERSION}-${BASE_VERSION}
@@ -41,6 +43,12 @@ deploy:
   provider: releases
   api_key: $GH_TOKEN
   skip_cleanup: true
+  body: >
+    base image version: $BASE_VERSION
+    nvchecker version: $NVCHECKER_VERSION
+    tornado version: $TORNADO_VERSION
+    pycurl version: $PYCURL_VERSION
+    image deployed: $IMAGE
 
 env:
   global:
