@@ -34,10 +34,16 @@ after_script:
   - docker images
 
 before_deploy:
-  - git config --local user.name "snw35"
+  - git config --local user.name "${DOCKER_USERNAME}"
   - git config --local user.email "snw35@use.startmail.com"
-  - export TRAVIS_TAG=${NVCHECKER_VERSION}-${TORNADO_VERSION}-${PYCURL_VERSION}-${BASE_VERSION}
+  - git remote add origin https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git > /dev/null 2>&1
+  - git checkout master
+  - git add -A
+  - git commit --message "Software Updated"
+  - TRAVIS_TAG=${NVCHECKER_VERSION}-${TORNADO_VERSION}-${PYCURL_VERSION}-${BASE_VERSION}
   - git tag $TRAVIS_TAG
+  - git push --quiet --set-upstream origin
+  - git push --tags --quiet --set-upstream origin
 
 deploy:
   provider: releases
@@ -49,6 +55,10 @@ deploy:
     tornado version: $TORNADO_VERSION
     pycurl version: $PYCURL_VERSION
     image deployed: $IMAGE
+
+branches:
+  except:
+    - /^untagged/
 
 env:
   global:
