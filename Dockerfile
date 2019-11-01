@@ -16,7 +16,8 @@ RUN apk --upgrade --no-cache add \
     pycurl==${PYCURL_VERSION} \
     nvchecker==${NVCHECKER_VERSION} \
   && apk del build.deps \
-  && chmod +x /docker-entrypoint.sh
+  && chmod +x /docker-entrypoint.sh \
+  && nvchecker --help
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 

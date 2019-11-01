@@ -5,7 +5,7 @@
 
 Dockerfile for the excellent [nvchecker](https://github.com/lilydjwg/nvchecker) Python module.
 
-This container is automatically updated once per week via the travis CI job above.
+This container works with [dfupdate](https://github.com/snw35/dfupdate) to check itself for updates every day, and new versions are built and pushed automatically.
 
 ## How To Use
 
