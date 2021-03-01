@@ -1,0 +1,15 @@
+[__config__]
+oldver = "old_ver.json"
+newver = "new_ver.json"
+
+[TORNADO]
+source = "pypi"
+pypi = "tornado"
+
+[PYCURL]
+source = "pypi"
+pypi = "pycurl"
+
+[NVCHECKER]
+source = "pypi"
+pypi = "nvchecker"
