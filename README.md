@@ -1,6 +1,6 @@
 # nvchecker
 
- * [Travis CI: ![Build Status](https://travis-ci.org/snw35/nvchecker.svg?branch=master)](https://travis-ci.org/snw35/nvchecker)
+ * [Travis CI: ![Build Status](https://travis-ci.com/snw35/nvchecker.svg?branch=master)](https://travis-ci.com/github/snw35/nvchecker)
  * [Dockerhub: snw35/nvchecker](https://hub.docker.com/r/snw35/nvchecker)
 
 Dockerfile for the excellent [nvchecker](https://github.com/lilydjwg/nvchecker) Python module.
