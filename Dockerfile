@@ -1,4 +1,4 @@
-FROM python:3.10-alpine3.15
+FROM python:3.10.1-alpine3.15
 
 ENV TORNADO_VERSION 6.1
 ENV PYCURL_VERSION 7.44.1
