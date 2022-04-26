@@ -1,6 +1,6 @@
 {
-  "NVCHECKER": "2.7",
+  "NVCHECKER": "2.8.post1",
+  "PACKAGING": "21.3",
   "PYCURL": "7.45.1",
-  "TORNADO": "6.1",
-  "PACKAGING": "21.3"
+  "TORNADO": "6.1"
 }
