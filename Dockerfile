@@ -3,6 +3,7 @@ FROM python:3.10.4-alpine3.15
 ENV TORNADO_VERSION 6.1
 ENV PYCURL_VERSION 7.45.1
 ENV NVCHECKER_VERSION 2.7
+ENV PACKAGING_VERSION 21.3
 
 COPY docker-entrypoint.sh /
 
@@ -15,6 +16,7 @@ RUN apk --upgrade --no-cache add \
     tornado==${TORNADO_VERSION}\
     pycurl==${PYCURL_VERSION} \
     nvchecker==${NVCHECKER_VERSION} \
+    packaging==${PACKAGING_VERSION} \
   && apk del build.deps \
   && chmod +x /docker-entrypoint.sh \
   && nvchecker --help

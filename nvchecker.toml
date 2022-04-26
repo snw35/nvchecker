@@ -13,3 +13,7 @@ pypi = "pycurl"
 [NVCHECKER]
 source = "pypi"
 pypi = "nvchecker"
+
+[PACKAGING]
+source = "pypi"
+pypi = "packaging"
