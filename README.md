@@ -1,7 +1,7 @@
 # nvchecker
 
- * [Travis CI: ![Build Status](https://travis-ci.com/snw35/nvchecker.svg?branch=master)](https://travis-ci.com/github/snw35/nvchecker)
- * [Dockerhub: snw35/nvchecker](https://hub.docker.com/r/snw35/nvchecker)
+- [Travis CI: ![Build Status](https://travis-ci.com/snw35/nvchecker.svg?branch=master)](https://travis-ci.com/github/snw35/nvchecker)
+- [Dockerhub: snw35/nvchecker](https://hub.docker.com/r/snw35/nvchecker)
 
 Dockerfile for the excellent [nvchecker](https://github.com/lilydjwg/nvchecker) Python module.
 
@@ -9,11 +9,11 @@ This container works with [dfupdate](https://github.com/snw35/dfupdate) to check
 
 ## How To Use
 
-This container is compliant with the official image specification and runs nvchecker as it's default entrypoint. To have nvchecker run against a project with an `ini` file in the current working directory, you can run:
+This container is compliant with the official image specification and runs nvchecker as it's default entrypoint. To have nvchecker run against a project with an `toml` file in the current working directory, you can run:
 
-`docker run -it --rm --mount type=bind,source=${PWD},target=/data/ -w /data snw35/nvchecker:latest nvchecker nvchecker.ini`
+`docker run -it --rm --mount type=bind,source=${PWD},target=/data/ -w /data snw35/nvchecker:latest nvchecker -c nvchecker.toml`
 
-Where `nvchecker.ini` is the name of the nvchecker configuration file.
+Where `nvchecker.toml` is the name of the nvchecker configuration file.
 
 ## Automating Container Updates
 
@@ -25,6 +25,6 @@ So yes, this nvchecker image updates itself :)
 
 Releases are tagged with all version numbers of software installed in the Dockerfile followed by the version of the base image:
 
- * version1-version2-version3-...-base-image-version
+- version1-version2-version3-...-base-image-version
 
 Container images are tagged with the primary software version. The `lastest` tag always points to the last image built, which is **NOT** guaranteed to be the latest release, but in most cases should be.
