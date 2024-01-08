@@ -1,7 +1,7 @@
 {
-  "BASE": "3.11.1-alpine3.17",
-  "NVCHECKER": "2.10",
-  "PACKAGING": "23.0",
+  "BASE": "3.12.1-alpine3.19",
+  "NVCHECKER": "2.13.1",
+  "PACKAGING": "23.2",
   "PYCURL": "7.45.2",
-  "TORNADO": "6.2"
+  "TORNADO": "6.4"
 }
