@@ -1,5 +1,5 @@
 {
-  "BASE": "3.13.4-alpine3.22",
+  "BASE": "3.13.5-alpine3.22",
   "NVCHECKER": "2.18",
   "PACKAGING": "25.0",
   "PYCURL": "7.45.6",
