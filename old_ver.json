@@ -2,7 +2,7 @@
   "version": 2,
   "data": {
     "BASE": {
-      "version": "3.13.7-alpine3.22"
+      "version": "3.14.0-alpine3.22"
     },
     "NVCHECKER": {
       "version": "2.19",
