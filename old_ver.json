@@ -2,23 +2,23 @@
   "version": 2,
   "data": {
     "BASE": {
-      "version": "3.14.1-alpine3.23"
+      "version": "3.14.2-alpine3.23"
     },
     "NVCHECKER": {
-      "version": "2.19",
-      "url": "https://pypi.org/project/nvchecker/2.19/"
+      "version": "2.20",
+      "url": "https://pypi.org/project/nvchecker/2.20/"
     },
     "PACKAGING": {
-      "version": "25.0",
-      "url": "https://pypi.org/project/packaging/25.0/"
+      "version": "26.0",
+      "url": "https://pypi.org/project/packaging/26.0/"
     },
     "PYCURL": {
       "version": "7.45.7",
       "url": "https://pypi.org/project/pycurl/7.45.7/"
     },
     "TORNADO": {
-      "version": "6.5.2",
-      "url": "https://pypi.org/project/tornado/6.5.2/"
+      "version": "6.5.4",
+      "url": "https://pypi.org/project/tornado/6.5.4/"
     }
   }
 }
