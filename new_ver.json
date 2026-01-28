@@ -1,6 +1,10 @@
 {
   "version": 2,
   "data": {
+    "AWESOMEVERSION": {
+      "version": "25.8.0",
+      "url": "https://pypi.org/project/awesomeversion/25.8.0/"
+    },
     "BASE": {
       "version": "3.14.2-alpine3.23"
     },
@@ -11,6 +15,10 @@
     "PACKAGING": {
       "version": "26.0",
       "url": "https://pypi.org/project/packaging/26.0/"
+    },
+    "PYALPM": {
+      "version": "0.10.12",
+      "url": "https://pypi.org/project/pyalpm/0.10.12/"
     },
     "PYCURL": {
       "version": "7.45.7",
