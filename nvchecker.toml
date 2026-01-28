@@ -22,3 +22,11 @@ pypi = "nvchecker"
 [PACKAGING]
 source = "pypi"
 pypi = "packaging"
+
+[PYALPM]
+source = "pypi"
+pypi = "pyalpm"
+
+[AWESOMEVERSION]
+source = "pypi"
+pypi = "awesomeversion"
