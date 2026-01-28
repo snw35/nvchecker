@@ -14,6 +14,8 @@ RUN apk --upgrade --no-cache add \
   && apk --no-cache --virtual build.deps add \
     curl-dev \
     build-base \
+    pacman-dev \
+    pkgconf \
   && pip install --no-cache-dir \
     tornado==${TORNADO_VERSION}\
     pycurl==${PYCURL_VERSION} \
