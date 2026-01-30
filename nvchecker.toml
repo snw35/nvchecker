@@ -24,8 +24,10 @@ source = "pypi"
 pypi = "packaging"
 
 [PYALPM]
-source = "pypi"
-pypi = "pyalpm"
+source = "gitlab"
+gitlab = "archlinux/pyalpm"
+host = "gitlab.archlinux.org"
+use_max_tag = "true"
 
 [AWESOMEVERSION]
 source = "pypi"

@@ -17,8 +17,9 @@
       "url": "https://pypi.org/project/packaging/26.0/"
     },
     "PYALPM": {
-      "version": "0.10.12",
-      "url": "https://pypi.org/project/pyalpm/0.10.12/"
+      "version": "0.11.1",
+      "revision": "2c7917acd103fcc7916c9d46a68b6579adf21105",
+      "url": "https://gitlab.archlinux.org/archlinux/pyalpm/-/tags/0.11.1"
     },
     "PYCURL": {
       "version": "7.45.7",
