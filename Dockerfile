@@ -1,4 +1,4 @@
-FROM python:3.14.2-alpine3.23 as wheelbuilder
+FROM python:3.14.2-alpine3.23 AS wheelbuilder
 
 ENV PYALPM_VERSION 0.11.1
 
@@ -27,7 +27,7 @@ ENV PACKAGING_VERSION 26.0
 ENV AWESOMEVERSION_VERSION 25.8.0
 
 COPY docker-entrypoint.sh /
-COPY --from wheelbuilder /wheelhouse/pyalpm-${PYALPM_VERSION}-cp314-cp314-linux_x86_64.whl /tmp/pyalpm.whl
+COPY --from=wheelbuilder /wheelhouse/pyalpm-${PYALPM_VERSION}-cp314-cp314-linux_x86_64.whl /tmp/pyalpm.whl
 
 RUN apk --upgrade --no-cache add \
     bash \
