@@ -43,6 +43,7 @@ RUN apk --upgrade --no-cache add \
     awesomeversion==${AWESOMEVERSION_VERSION} \
     /tmp/pyalpm-${PYALPM_VERSION}-cp314-cp314-musllinux_1_2_x86_64.whl \
   && apk del build.deps \
+  && pip cache purge \
   && rm -f /tmp/pyalpm-${PYALPM_VERSION}-cp314-cp314-musllinux_1_2_x86_64.whl \
   && chmod +x /docker-entrypoint.sh \
   && nvchecker --help
