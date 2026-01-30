@@ -2,6 +2,11 @@
 oldver = "old_ver.json"
 newver = "new_ver.json"
 
+[BASE_WHEELBUILDER]
+source = "container"
+container = "library/python"
+include_regex = "\\d+\\.\\d+\\.?\\d?-alpine\\d\\.\\d+"
+
 [BASE]
 source = "container"
 container = "library/python"
@@ -22,3 +27,13 @@ pypi = "nvchecker"
 [PACKAGING]
 source = "pypi"
 pypi = "packaging"
+
+[PYALPM]
+source = "gitlab"
+gitlab = "archlinux/pyalpm"
+host = "gitlab.archlinux.org"
+use_max_tag = "true"
+
+[AWESOMEVERSION]
+source = "pypi"
+pypi = "awesomeversion"
