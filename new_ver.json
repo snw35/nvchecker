@@ -29,8 +29,8 @@
       "url": "https://pypi.org/project/pycurl/7.46.0/"
     },
     "TORNADO": {
-      "version": "6.5.5",
-      "url": "https://pypi.org/project/tornado/6.5.5/"
+      "version": "6.5.6",
+      "url": "https://pypi.org/project/tornado/6.5.6/"
     }
   }
 }
