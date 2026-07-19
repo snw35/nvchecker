@@ -12,8 +12,8 @@
       "version": "3.14.6-alpine3.24"
     },
     "NVCHECKER": {
-      "version": "2.20",
-      "url": "https://pypi.org/project/nvchecker/2.20/"
+      "version": "2.21",
+      "url": "https://pypi.org/project/nvchecker/2.21/"
     },
     "PACKAGING": {
       "version": "26.2",
