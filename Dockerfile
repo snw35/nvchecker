@@ -1,6 +1,6 @@
 FROM python:3.14.7-alpine3.24 AS wheelbuilder
 
-ENV PYALPM_VERSION 0.11.1
+ENV PYALPM_VERSION 0.12.0
 
 RUN apk --upgrade --no-cache add \
     build-base \
@@ -25,7 +25,7 @@ ENV PYCURL_VERSION 7.47.0
 ENV NVCHECKER_VERSION 2.22
 ENV PACKAGING_VERSION 26.3
 ENV AWESOMEVERSION_VERSION 25.8.0
-ENV PYALPM_VERSION 0.11.1
+ENV PYALPM_VERSION 0.12.0
 
 COPY docker-entrypoint.sh /
 COPY --from=wheelbuilder /wheelhouse/pyalpm-${PYALPM_VERSION}-cp314-cp314-musllinux_1_2_x86_64.whl /tmp/
