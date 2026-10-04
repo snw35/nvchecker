@@ -6,10 +6,10 @@
       "url": "https://pypi.org/project/awesomeversion/25.8.0/"
     },
     "BASE": {
-      "version": "3.14.7-alpine3.24"
+      "version": "3.14.8-alpine3.24"
     },
     "BASE_WHEELBUILDER": {
-      "version": "3.14.7-alpine3.24"
+      "version": "3.14.8-alpine3.24"
     },
     "NVCHECKER": {
       "version": "2.22",

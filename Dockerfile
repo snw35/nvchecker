@@ -1,4 +1,4 @@
-FROM python:3.14.7-alpine3.24 AS wheelbuilder
+FROM python:3.14.8-alpine3.24 AS wheelbuilder
 
 ENV PYALPM_VERSION 0.12.0
 
@@ -18,7 +18,7 @@ RUN apk --upgrade --no-cache add \
   && auditwheel repair -w /wheelhouse/ /wheelhouse/pyalpm-${PYALPM_VERSION}-cp314-cp314-linux_x86_64.whl --strip \
   && auditwheel show /wheelhouse/pyalpm-${PYALPM_VERSION}-cp314-cp314-musllinux_1_2_x86_64.whl
 
-FROM python:3.14.7-alpine3.24
+FROM python:3.14.8-alpine3.24
 
 ENV TORNADO_VERSION 6.5.10
 ENV PYCURL_VERSION 7.48.0
